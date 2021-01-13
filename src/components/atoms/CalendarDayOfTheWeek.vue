@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import useDayOfTheWeek from '../../composables/use-day-of-the-week';
+import getDayOfTheWeek from '../../utils/getDayOfTheWeek';
 
 export default {
   props: {
@@ -13,7 +13,7 @@ export default {
     },
   },
   setup({ dayOfTheWeekIndex }) {
-    const dayOfTheWeek = useDayOfTheWeek(dayOfTheWeekIndex);
+    const dayOfTheWeek = getDayOfTheWeek(dayOfTheWeekIndex);
     return {
       dayOfTheWeek,
     };
