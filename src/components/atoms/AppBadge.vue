@@ -1,15 +1,12 @@
 <template>
-  <div :class="$style.badge" :style="styleObject">{{ badgeLabel }}</div>
+  <div :class="$style.badge" :style="styleObject">
+    <slot></slot>
+  </div>
 </template>
 
 <script>
 export default {
   props: {
-    badgeLabel: {
-      type: String,
-      default: '',
-      required: true,
-    },
     styleObject: {
       type: Object,
       default: () => ({}),
