@@ -18,12 +18,11 @@ export default {
 <style lang="scss" module>
 .badge {
   background-color: #ccc;
-  border-radius: 4px;
+  border-radius: var(--base-border-radius);
   color: #fff;
   font-size: 12px;
   font-weight: bold;
   line-height: 1.4;
-  margin: 4px 0;
   overflow: hidden;
   padding: 3px 8px;
   text-overflow: ellipsis;

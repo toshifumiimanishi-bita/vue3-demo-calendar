@@ -23,7 +23,7 @@ export default {
 .todaybutton {
   background-color: transparent;
   border: 1px solid #dadce0;
-  border-radius: 4px;
+  border-radius: var(--base-border-radius);
   cursor: pointer;
   font-size: 12px;
   height: 100%;
