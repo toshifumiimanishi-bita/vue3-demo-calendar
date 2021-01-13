@@ -1,5 +1,5 @@
 <template>
-  <AppBadge :badge-label="holiday" :style-object="styleObject" />
+  <AppBadge :style-object="styleObject">{{ holiday }}</AppBadge>
 </template>
 
 <script>
@@ -16,7 +16,7 @@ export default {
       required: true,
     },
   },
-  setup(props) {
+  setup() {
     const styleObject = {
       backgroundColor: '#f9a802',
     };
