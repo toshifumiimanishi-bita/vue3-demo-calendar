@@ -16,6 +16,10 @@
             :day="calendarData.day"
             :is-today="calendarData.isToday"
           />
+          <CalendarHolidayBadge
+            v-if="calendarData.holiday"
+            :holiday="calendarData.holiday"
+          />
         </a>
       </CalendarCell>
     </div>
