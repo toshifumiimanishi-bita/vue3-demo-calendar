@@ -29,16 +29,12 @@ export default {
 
 <style lang="scss" module>
 .cell {
-  border-left: 1px solid var(--base-border-color);
   padding: 4px;
   width: 100%;
-
-  &:last-child {
-    border-right: 1px solid var(--base-border-color);
-  }
+  background-color: var(--cell-background-color);
 
   &:not(.is-thismonth) {
-    background-color: var(--disabled-background-color);
+    background-color: var(--cell-background-color-disabled);
   }
 }
 </style>
