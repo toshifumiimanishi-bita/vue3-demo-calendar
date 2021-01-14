@@ -59,12 +59,13 @@ export default {
   display: grid;
   grid-template-columns: repeat(7, percentage(1 / 7));
   grid-template-rows: repeat(6, percentage(1 / 6));
-  gap: 1px;
   height: 100%;
-  background-color: var(--base-border-color);
 }
 
 .calendarbody_cell {
+  border-bottom: 1px solid var(--base-border-color);
+  border-left: 1px solid var(--base-border-color);
+
   > a {
     display: block;
     height: 100%;
