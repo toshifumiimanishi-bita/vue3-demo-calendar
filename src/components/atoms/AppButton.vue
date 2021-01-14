@@ -30,5 +30,9 @@ export default {
   font-size: 12px;
   line-height: 1;
   padding: 12px 8px;
+
+  &[disabled] {
+    opacity: 0.4;
+  }
 }
 </style>
