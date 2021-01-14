@@ -15,7 +15,7 @@
   --base-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Sans", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
   --cell-background-color: var(--color-white);
   --cell-background-color-disabled: var(--color-gray-200);
-  --modal-dialog-background-color: var(--color-white);
+  --modal-background-color: var(--color-white);
   --modal-box-shadow-color: var(--color-black);
   --zindex-overlay: 1000;
   --zindex-tooltip: 1001;
