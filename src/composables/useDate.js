@@ -1,4 +1,4 @@
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 
 export default function useDate() {
   const today = new Date();
@@ -6,6 +6,18 @@ export default function useDate() {
   const thisMonth = today.getMonth() + 1;
   const currentYear = ref(thisYear);
   const currentMonth = ref(thisMonth);
+  const currentFirstDay = computed(() => {
+    return new Date(currentYear.value, currentMonth.value - 1, 1);
+  });
+  const currentFirstDayOfTheMonthIndex = computed(() => {
+    return currentFirstDay.value.getDay();
+  });
+  const currentEndOfMonth = computed(() => {
+    return new Date(currentYear.value, currentMonth.value, 0);
+  });
+  const currentLateLastMonth = computed(() => {
+    return new Date(currentYear.value, currentMonth.value - 1, 0);
+  });
   const initYear = () => {
     currentYear.value = thisYear;
   };
@@ -30,13 +42,11 @@ export default function useDate() {
   };
 
   return {
-    today,
-    thisYear,
-    thisMonth,
     currentYear,
     currentMonth,
-    initYear,
-    initMonth,
+    currentFirstDayOfTheMonthIndex,
+    currentEndOfMonth,
+    currentLateLastMonth,
     initDate,
     incrementCurrentYear,
     decrementCurrentYear,
