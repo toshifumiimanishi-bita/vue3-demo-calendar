@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import AsyncCalendar from './components/templates/AsyncCalendar.vue'
+import AsyncCalendar from '../templates/AsyncCalendar.vue'
 
 export default {
   name: 'App',
