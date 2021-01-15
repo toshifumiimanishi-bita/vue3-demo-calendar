@@ -9,12 +9,12 @@
     />
     <CalendarBody
       :current-calendar-data="currentCalendarData"
+      @add="handleAdd"
     />
   </div>
 </template>
 
 <script>
-import { ref } from 'vue';
 import useDate from '../../composables/useDate';
 import useCalendar from '../../composables/useCalendar';
 import CalendarBody from '../organisms/CalendarBody.vue';
@@ -44,7 +44,7 @@ export default {
       incrementCurrentMonth,
       decrementCurrentMonth,
     } = useDate();
-    const currentCalendarData = useCalendar({
+    const { currentCalendarData, setCalendarData } = useCalendar({
       holidays,
       currentYear,
       currentMonth,
@@ -74,6 +74,11 @@ export default {
     const handleNext = () => {
       goToNextMonth();
     };
+    const handleAdd = ({ targetIndex, newTask }) => {
+      const newCalendarData = [...currentCalendarData.value];
+      newCalendarData[targetIndex].tasks.push(newTask);
+      setCalendarData(newCalendarData);
+    }
 
     return {
       currentYear,
@@ -85,6 +90,7 @@ export default {
       initDate,
       handlePrev,
       handleNext,
+      handleAdd,
     };
   },
 }

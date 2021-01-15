@@ -7,7 +7,10 @@
         :key="calendarData.id"
         :calendar-data="calendarData"
       >
-        <a href="">
+        <a href=""
+          :data-date="calendarData.date"
+          @click.prevent="handleCalendarCellClick"
+        >
           <CalendarDayOfTheWeek
             v-if="cellIndex < 7"
             :day-of-the-week-index="calendarData.dayOfTheWeekIndex"
@@ -18,20 +21,38 @@
           />
           <CalendarHolidayBadge
             v-if="calendarData.holiday"
+            :class="$style.calendarbody_badge"
             :holiday="calendarData.holiday"
           />
+          <template v-for="task in calendarData.tasks" :key="task.id">
+            <CalendarTaskBadge
+              :class="$style.calendarbody_badge"
+              :task-id="task.id"
+              :task-name="task.name"
+            />
+          </template>
         </a>
       </CalendarCell>
     </div>
   </div>
+  <CalendarTaskFormModal
+    :modal-title="currentDate"
+    :is-visible="isVisibleCalendarTaskFormModal"
+    @hide="hideCalendarTaskListModal"
+    @save="addTask"
+  />
 </template>
 
 <script>
+import { ref } from 'vue';
 import CalendarDay from '../atoms/CalendarDay.vue';
 import CalendarDayOfTheWeek from '../atoms/CalendarDayOfTheWeek.vue';
 import CalendarHolidayBadge from '../atoms/CalendarHolidayBadge.vue';
 import CalendarTaskBadge from '../atoms/CalendarTaskBadge.vue';
 import CalendarCell from '../molecules/CalendarCell.vue';
+import CalendarTaskFormModal from '../organisms/CalendarTaskFormModal.vue';
+import useModal from '../../composables/useModal';
+import generateUuid from '../../utils/generateUuid';
 
 export default {
   components: {
@@ -40,13 +61,45 @@ export default {
     CalendarHolidayBadge,
     CalendarTaskBadge,
     CalendarCell,
+    CalendarTaskFormModal,
   },
   props: {
     currentCalendarData: {
       type: Array,
       default: () => [],
     },
-  }
+  },
+  emits: {
+    add: (payload) => true,
+  },
+  setup({ currentCalendarData }, { emit }) {
+    const currentDate = ref('');
+    const {
+      isVisible: isVisibleCalendarTaskFormModal,
+      show: showCalendarTaskFormModal,
+      hide: hideCalendarTaskListModal,
+    } = useModal();
+    const handleCalendarCellClick = (event) => {
+      currentDate.value = event.currentTarget.getAttribute('data-date');
+      showCalendarTaskFormModal();
+    };
+    const addTask = (newTaskName) => {
+      const taskId = generateUuid();
+      const targetIndex = currentCalendarData.findIndex(({ date }) => date === currentDate.value);
+      const newTask = { id: taskId, name: newTaskName };
+
+      emit('add', { targetIndex, newTask });
+    };
+
+    return {
+      currentDate,
+      isVisibleCalendarTaskFormModal,
+      showCalendarTaskFormModal,
+      hideCalendarTaskListModal,
+      handleCalendarCellClick,
+      addTask,
+    };
+  },
 }
 </script>
 
@@ -69,6 +122,12 @@ export default {
   > a {
     display: block;
     height: 100%;
+  }
+}
+
+.calendarbody_badge {
+  + .calendarbody_badge {
+    margin-top: 4px;
   }
 }
 </style>
