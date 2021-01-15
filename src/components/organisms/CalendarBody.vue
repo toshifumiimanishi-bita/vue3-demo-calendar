@@ -24,13 +24,14 @@
             :class="$style.calendarbody_badge"
             :holiday="calendarData.holiday"
           />
-          <template v-for="task in calendarData.tasks" :key="task.id">
+          <template v-for="task in tasks[calendarData.date]" :key="task.id">
             <CalendarTaskBadge
               :class="$style.calendarbody_badge"
               :task-id="task.id"
               :task-name="task.name"
+              @remove="handleRemove"
             />
-          </template>
+          </template>        
         </a>
       </CalendarCell>
     </div>
@@ -39,7 +40,7 @@
     :modal-title="currentDate"
     :is-visible="isVisibleCalendarTaskFormModal"
     @hide="hideCalendarTaskListModal"
-    @save="addTask"
+    @save="handleSave"
   />
 </template>
 
@@ -51,6 +52,7 @@ import CalendarHolidayBadge from '../atoms/CalendarHolidayBadge.vue';
 import CalendarTaskBadge from '../atoms/CalendarTaskBadge.vue';
 import CalendarCell from '../molecules/CalendarCell.vue';
 import CalendarTaskFormModal from '../organisms/CalendarTaskFormModal.vue';
+import useTask from '../../composables/useTask';
 import useModal from '../../composables/useModal';
 import generateUuid from '../../utils/generateUuid';
 
@@ -75,6 +77,11 @@ export default {
   setup({ currentCalendarData }, { emit }) {
     const currentDate = ref('');
     const {
+      tasks,
+      addTask,
+      removeTask,
+    } = useTask();
+    const {
       isVisible: isVisibleCalendarTaskFormModal,
       show: showCalendarTaskFormModal,
       hide: hideCalendarTaskListModal,
@@ -83,12 +90,11 @@ export default {
       currentDate.value = event.currentTarget.getAttribute('data-date');
       showCalendarTaskFormModal();
     };
-    const addTask = (newTaskName) => {
-      const taskId = generateUuid();
-      const targetIndex = currentCalendarData.findIndex(({ date }) => date === currentDate.value);
-      const newTask = { id: taskId, name: newTaskName };
-
-      emit('add', { targetIndex, newTask });
+    const handleSave = (newTaskName) => {
+      addTask(newTaskName, currentDate.value)
+    };
+    const handleRemove = (taskId) => {
+      removeTask(taskId);
     };
 
     return {
@@ -97,7 +103,9 @@ export default {
       showCalendarTaskFormModal,
       hideCalendarTaskListModal,
       handleCalendarCellClick,
-      addTask,
+      handleSave,
+      handleRemove,
+      tasks,
     };
   },
 }

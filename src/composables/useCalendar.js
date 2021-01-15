@@ -35,9 +35,8 @@ export default function useCalendar({
       const holiday = getHoliday(date);
       const isThisMonth = false;
       const isToday = date === dateToday;
-      const tasks = [];
 
-      return { id, date, day, dayOfTheWeekIndex, holiday, isThisMonth, isToday, tasks };
+      return { id, date, day, dayOfTheWeekIndex, holiday, isThisMonth, isToday };
     });
 
     return lastMonthCalendarData;
@@ -52,9 +51,8 @@ export default function useCalendar({
       const holiday = getHoliday(date);
       const isThisMonth = true;
       const isToday = date === dateToday;
-      const tasks = [];
 
-      return { id, date, day, dayOfTheWeekIndex, holiday, isThisMonth, isToday, tasks };
+      return { id, date, day, dayOfTheWeekIndex, holiday, isThisMonth, isToday };
     });
 
     return thisMonthCalendarData;
@@ -74,9 +72,8 @@ export default function useCalendar({
       const holiday = getHoliday(date);
       const isThisMonth = false;
       const isToday = date === dateToday;
-      const tasks = [];
 
-      return { id, date, day, dayOfTheWeekIndex, holiday, isThisMonth, isToday, tasks };
+      return { id, date, day, dayOfTheWeekIndex, holiday, isThisMonth, isToday };
     });
 
     return dateData;

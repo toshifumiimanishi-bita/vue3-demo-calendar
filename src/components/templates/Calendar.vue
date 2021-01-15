@@ -9,7 +9,6 @@
     />
     <CalendarBody
       :current-calendar-data="currentCalendarData"
-      @add="handleAdd"
     />
   </div>
 </template>
@@ -44,7 +43,7 @@ export default {
       incrementCurrentMonth,
       decrementCurrentMonth,
     } = useDate();
-    const { currentCalendarData, setCalendarData } = useCalendar({
+    const { currentCalendarData } = useCalendar({
       holidays,
       currentYear,
       currentMonth,
@@ -74,11 +73,6 @@ export default {
     const handleNext = () => {
       goToNextMonth();
     };
-    const handleAdd = ({ targetIndex, newTask }) => {
-      const newCalendarData = [...currentCalendarData.value];
-      newCalendarData[targetIndex].tasks.push(newTask);
-      setCalendarData(newCalendarData);
-    }
 
     return {
       currentYear,
@@ -90,7 +84,6 @@ export default {
       initDate,
       handlePrev,
       handleNext,
-      handleAdd,
     };
   },
 }
