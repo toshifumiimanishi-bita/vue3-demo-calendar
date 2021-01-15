@@ -24,14 +24,19 @@
             :class="$style.calendarbody_badge"
             :holiday="calendarData.holiday"
           />
-          <template v-for="task in tasks[calendarData.date]" :key="task.id">
+          <template v-for="(task, taskIndex) in tasks[calendarData.date]" :key="task.id">
             <CalendarTaskBadge
+              v-if="isVisibleTaskBadge(taskIndex)"
               :class="$style.calendarbody_badge"
               :task-id="task.id"
               :task-name="task.name"
               @remove="handleRemove"
             />
-          </template>        
+          </template>
+          <p
+            v-if="isVisibleRemainingTasks(tasks[calendarData.date])"
+            :class="$style.calendarbody_reaming"
+          >他{{ countOfRemainingTasks(tasks[calendarData.date]) }}件</p>
         </a>
       </CalendarCell>
     </div>
@@ -45,7 +50,7 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import CalendarDay from '../atoms/CalendarDay.vue';
 import CalendarDayOfTheWeek from '../atoms/CalendarDayOfTheWeek.vue';
 import CalendarHolidayBadge from '../atoms/CalendarHolidayBadge.vue';
@@ -95,6 +100,16 @@ export default {
     const handleRemove = (taskId) => {
       removeTask(taskId);
     };
+    const maxTaskBadgeDisplayed = 2;
+    const isVisibleTaskBadge = computed(() => {
+      return (taskIndex) =>  maxTaskBadgeDisplayed > taskIndex;
+    });
+    const isVisibleRemainingTasks = computed(() => {
+      return (tasks) => tasks?.length > maxTaskBadgeDisplayed;
+    });
+    const countOfRemainingTasks = computed(() => {
+      return (tasks) => tasks?.length - maxTaskBadgeDisplayed;
+    });
 
     return {
       currentDate,
@@ -105,6 +120,9 @@ export default {
       handleSave,
       handleRemove,
       tasks,
+      isVisibleTaskBadge,
+      isVisibleRemainingTasks,
+      countOfRemainingTasks,
     };
   },
 }
@@ -136,5 +154,13 @@ export default {
   + .calendarbody_badge {
     margin-top: 4px;
   }
+}
+
+.calendarbody_reaming {
+  font-size: 10px;
+  font-weight: bold;
+  line-height: 1.4;
+  letter-spacing: 0.1em;
+  margin-top: 8px;
 }
 </style>
