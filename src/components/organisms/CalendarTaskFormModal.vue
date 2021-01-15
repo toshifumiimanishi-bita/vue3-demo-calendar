@@ -1,5 +1,5 @@
 <template>
-  <AppModal :is-visible="isVisible">
+  <AppModal :is-visible="isVisible" @hide="$emit('hide')">
     <p :class="$style.modal_title">{{ modalTitle }}</p>
     <CalendarTaskForm @save="handleTaskSave" />
     <button
