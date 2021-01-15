@@ -2,7 +2,10 @@ import { reactive, readonly } from 'vue';
 import generateUuid from '../utils/generateUuid';
 
 export default function useTask() {
-  const tasks = reactive({});
+  const restoreTasks = () => {
+    return reactive(JSON.parse(localStorage.getItem('tasks')));
+  };
+  const tasks = restoreTasks() || reactive({});
   const addTask = (newTaskName, date) => {
     const taskId = generateUuid();
     const newTask = {
@@ -19,10 +22,14 @@ export default function useTask() {
       }
     }
   };
+  const saveTasks = () => {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+  };
 
   return {
     tasks: readonly(tasks),
     addTask,
     removeTask,
+    saveTasks,
   }
 }

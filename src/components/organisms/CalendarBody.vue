@@ -80,6 +80,7 @@ export default {
       tasks,
       addTask,
       removeTask,
+      saveTasks,
     } = useTask();
     const {
       isVisible: isVisibleCalendarTaskFormModal,
@@ -92,6 +93,7 @@ export default {
     };
     const handleSave = (newTaskName) => {
       addTask(newTaskName, currentDate.value)
+      saveTasks();
     };
     const handleRemove = (taskId) => {
       removeTask(taskId);
