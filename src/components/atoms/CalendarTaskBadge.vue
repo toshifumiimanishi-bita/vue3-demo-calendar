@@ -1,7 +1,11 @@
 <template>
   <AppBadge :class="$style.badge" :style-object="styleObject">
     {{ taskName }}
-    <button :class="$style.badge_closebutton" type="button">×</button>
+    <button
+      :class="$style.badge_closebutton"
+      @click.stop.prevent="$emit('remove', taskId)"
+      type="button"
+    >×</button>
   </AppBadge>
 </template>
 
@@ -23,6 +27,9 @@ export default {
       default: '',
       required: true,
     },
+  },
+  emits: {
+    remove: (taskId) => typeof taskId === 'string',
   },
   setup() {
     const styleObject = {
