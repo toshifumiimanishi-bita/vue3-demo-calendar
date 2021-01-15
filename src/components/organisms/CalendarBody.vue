@@ -71,10 +71,7 @@ export default {
       default: () => [],
     },
   },
-  emits: {
-    add: (payload) => true,
-  },
-  setup({ currentCalendarData }, { emit }) {
+  setup({ currentCalendarData }) {
     const currentDate = ref('');
     const {
       tasks,
