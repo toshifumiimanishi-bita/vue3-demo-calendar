@@ -12,7 +12,7 @@
           @click.prevent="handleCalendarCellClick"
         >
           <CalendarDayOfTheWeek
-            v-if="cellIndex < 7"
+            v-if="isVisibledDayOfTheWeek(cellIndex)"
             :day-of-the-week-index="calendarData.dayOfTheWeekIndex"
           />
           <CalendarDay
@@ -36,6 +36,8 @@
           <p
             v-if="isVisibleRemainingTasks(tasks[calendarData.date])"
             :class="$style.calendarbody_reaming"
+            :data-date="calendarData.date"
+            @click.stop.prevent="handleRemainingTasksClick"
           >他{{ countOfRemainingTasks(tasks[calendarData.date]) }}件</p>
         </a>
       </CalendarCell>
@@ -44,8 +46,15 @@
   <CalendarTaskFormModal
     :modal-title="currentDate"
     :is-visible="isVisibleCalendarTaskFormModal"
-    @hide="hideCalendarTaskListModal"
+    @hide="hideCalendarTaskFormModal"
     @save="handleSave"
+  />
+  <CalendarTaskListModal
+    :current-date="currentDate"
+    :is-visible="isVisibleCalendarTaskListModal"
+    :tasks="tasks"
+    @hide="hideCalendarTaskListModal"
+    @remove="handleRemove"
   />
 </template>
 
@@ -57,6 +66,7 @@ import CalendarHolidayBadge from '../atoms/CalendarHolidayBadge.vue';
 import CalendarTaskBadge from '../atoms/CalendarTaskBadge.vue';
 import CalendarCell from '../molecules/CalendarCell.vue';
 import CalendarTaskFormModal from '../organisms/CalendarTaskFormModal.vue';
+import CalendarTaskListModal from '../organisms/CalendarTaskListModal.vue';
 import useTask from '../../composables/useTask';
 import useModal from '../../composables/useModal';
 import generateUuid from '../../utils/generateUuid';
@@ -69,6 +79,7 @@ export default {
     CalendarTaskBadge,
     CalendarCell,
     CalendarTaskFormModal,
+    CalendarTaskListModal,
   },
   props: {
     currentCalendarData: {
@@ -87,11 +98,20 @@ export default {
     const {
       isVisible: isVisibleCalendarTaskFormModal,
       show: showCalendarTaskFormModal,
+      hide: hideCalendarTaskFormModal,
+    } = useModal();
+    const {
+      isVisible: isVisibleCalendarTaskListModal,
+      show: showCalendarTaskListModal,
       hide: hideCalendarTaskListModal,
     } = useModal();
     const handleCalendarCellClick = (event) => {
       currentDate.value = event.currentTarget.getAttribute('data-date');
       showCalendarTaskFormModal();
+    };
+    const handleRemainingTasksClick = (event) => {
+      currentDate.value = event.currentTarget.getAttribute('data-date');
+      showCalendarTaskListModal();
     };
     const handleSave = (newTaskName) => {
       addTask(newTaskName, currentDate.value)
@@ -99,8 +119,13 @@ export default {
     };
     const handleRemove = (taskId) => {
       removeTask(taskId);
+      saveTasks();
     };
+    const maxDayOfTheWeekDisplayed = 7;
     const maxTaskBadgeDisplayed = 2;
+    const isVisibledDayOfTheWeek = computed(() => {
+      return (cellIndex) => maxDayOfTheWeekDisplayed > cellIndex;
+    });
     const isVisibleTaskBadge = computed(() => {
       return (taskIndex) =>  maxTaskBadgeDisplayed > taskIndex;
     });
@@ -114,12 +139,15 @@ export default {
     return {
       currentDate,
       isVisibleCalendarTaskFormModal,
-      showCalendarTaskFormModal,
+      isVisibleCalendarTaskListModal,
+      hideCalendarTaskFormModal,
       hideCalendarTaskListModal,
       handleCalendarCellClick,
+      handleRemainingTasksClick,
       handleSave,
       handleRemove,
       tasks,
+      isVisibledDayOfTheWeek,
       isVisibleTaskBadge,
       isVisibleRemainingTasks,
       countOfRemainingTasks,
