@@ -2,21 +2,13 @@
   <button :class="$style.todaybutton" type="button" @click="handleClick">今日</button>
 </template>
 
-<script>
-export default {
-  emits: {
-    'init:date': null,
-  },
-  setup(props, { emit }) {
-    const handleClick = () => {
-      emit('init:date');
-    };
-
-    return {
-      handleClick,
-    };
-  },
-}
+<script setup>
+const emit = defineEmits({
+  'init:date': null,
+});
+const handleClick = () => {
+  emit('init:date');
+};
 </script>
 
 <style lang="scss" module>

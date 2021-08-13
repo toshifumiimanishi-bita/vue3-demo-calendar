@@ -2,27 +2,17 @@
   <AppBadge :style-object="styleObject">{{ holiday }}</AppBadge>
 </template>
 
-<script>
+<script setup>
 import AppBadge from './AppBadge.vue';
 
-export default {
-  components: {
-    AppBadge,
+const props = defineProps({
+  holiday: {
+    type: String,
+    default: '',
+    required: true,
   },
-  props: {
-    holiday: {
-      type: String,
-      default: '',
-      required: true,
-    },
-  },
-  setup() {
-    const styleObject = {
-      backgroundColor: '#f9a802',
-    };
-    return {
-      styleObject,
-    };
-  },
+});
+const styleObject = {
+  backgroundColor: '#f9a802',
 };
 </script>

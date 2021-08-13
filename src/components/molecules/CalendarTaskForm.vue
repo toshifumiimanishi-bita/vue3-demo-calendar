@@ -16,40 +16,25 @@
   </form>
 </template>
 
-<script>
+<script setup>
 import { computed, ref } from 'vue';
 import AppButton from '../atoms/AppButton.vue';
 import AppTextFileld from '../atoms/AppTextFileld.vue';
 
-export default {
-  components: {
-    AppButton,
-    AppTextFileld,
-  },
-  emits: {
-    save: (value) => true,
-  },
-  setup(props, { emit }) {
-    const newTaskName = ref('');
-    const isSaveButtonDisabled = computed(() => {
-      return newTaskName.value === '';
-    });
-    const styleObject = {
-      backgroundColor: '#1a73e8',
-    };
-    const saveTask = () => {
-      emit('save', newTaskName.value);
-      newTaskName.value = '';
-    };
-
-    return {
-      newTaskName,
-      isSaveButtonDisabled,
-      styleObject,
-      saveTask,
-    };
-  }
-}
+const emit = defineEmits({
+  save: (value) => true,
+});
+const newTaskName = ref('');
+const isSaveButtonDisabled = computed(() => {
+  return newTaskName.value === '';
+});
+const styleObject = {
+  backgroundColor: '#1a73e8',
+};
+const saveTask = () => {
+  emit('save', newTaskName.value);
+  newTaskName.value = '';
+};
 </script>
 
 <style lang="scss" module>

@@ -8,22 +8,20 @@
   />
 </template>
 
-<script>
-export default {
-  props: {
-    modelValue: {
-      type: String,
-      default: '',
-    },
-    placeholder: {
-      type: String,
-      default: '',
-    },
+<script setup>
+const props = defineProps({
+  modelValue: {
+    type: String,
+    default: '',
   },
-  emits: {
-    'update:modelValue': (value) => true,
-  }
-}
+  placeholder: {
+    type: String,
+    default: '',
+  },
+});
+const emit = defineEmits({
+  'update:modelValue': (value) => true,
+});
 </script>
 
 <style lang="scss" module>

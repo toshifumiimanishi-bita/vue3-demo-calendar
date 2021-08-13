@@ -10,27 +10,25 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    isVisible: {
-      type: Boolean,
-      default: false,
-    },
-    styleObject: {
-      type: Object,
-      default: () => ({
-        width: '400px',
-        height: '320px',
-        top: 'calc(50% - 160px)',
-        left: 'calc(50% - 200px)',
-      }),
-    },
+<script setup>
+const props = defineProps({
+  isVisible: {
+    type: Boolean,
+    default: false,
   },
-  emits: {
-    hide: null,
+  styleObject: {
+    type: Object,
+    default: () => ({
+      width: '400px',
+      height: '320px',
+      top: 'calc(50% - 160px)',
+      left: 'calc(50% - 200px)',
+    }),
   },
-}
+});
+const emit = defineEmits({
+  hide: null,
+});
 </script>
 
 <style lang="scss" module>

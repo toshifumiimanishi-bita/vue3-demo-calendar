@@ -5,26 +5,17 @@
   </nav>
 </template>
 
-<script>
-export default {
-  emits: {
-    prev: null,
-    next: null,
-  },
-  setup(props, { emit }) {
-    const handlePrevButtonClick = () => {
-      emit('prev');
-    };
-    const handleNextButtonClick = () => {
-      emit('next');
-    };
-
-    return {
-      handlePrevButtonClick,
-      handleNextButtonClick,
-    };
-  },
-}
+<script setup>
+const emit = defineEmits({
+  prev: null,
+  next: null,
+});
+const handlePrevButtonClick = () => {
+  emit('prev');
+};
+const handleNextButtonClick = () => {
+  emit('next');
+};
 </script>
 
 <style lang="scss" module>

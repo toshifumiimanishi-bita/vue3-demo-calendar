@@ -6,20 +6,18 @@
   >{{ label }}</button>
 </template>
 
-<script>
-export default {
-  props: {
-    label: {
-      type: String,
-      default: '',
-      required: true,
-    },
-    styleObject: {
-      type: Object,
-      default: () => ({}),
-    },
+<script setup>
+const props = defineProps({
+  label: {
+    type: String,
+    default: '',
+    required: true,
   },
-};
+  styleObject: {
+    type: Object,
+    default: () => ({}),
+  },
+});
 </script>
 
 <style lang="scss" module>

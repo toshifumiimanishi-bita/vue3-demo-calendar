@@ -4,27 +4,20 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { useCssModule } from 'vue';
 
-export default {
-  props: {
-    calendarData: {
-      type: Object,
-      default: () => ({}),
-    },
+const props = defineProps({
+  calendarData: {
+    type: Object,
+    default: () => ({}),
   },
-  setup({ calendarData }) {
-    const style = useCssModule();
-    const { isThisMonth } = calendarData;
-    const calendarCellClasses = {
-      [style['is-thismonth']]: isThisMonth,
-    };
-    return {
-      calendarCellClasses,
-    };
-  },
-}
+});
+const style = useCssModule();
+const { isThisMonth } = props.calendarData;
+const calendarCellClasses = {
+  [style['is-thismonth']]: isThisMonth,
+};
 </script>
 
 <style lang="scss" module>
