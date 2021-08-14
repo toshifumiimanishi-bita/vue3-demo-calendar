@@ -58,7 +58,7 @@
   />
 </template>
 
-<script>
+<script setup>
 import { computed, ref } from 'vue';
 import CalendarDay from '../atoms/CalendarDay.vue';
 import CalendarDayOfTheWeek from '../atoms/CalendarDayOfTheWeek.vue';
@@ -71,89 +71,59 @@ import useTask from '../../composables/useTask';
 import useModal from '../../composables/useModal';
 import generateUuid from '../../utils/generateUuid';
 
-export default {
-  components: {
-    CalendarDay,
-    CalendarDayOfTheWeek,
-    CalendarHolidayBadge,
-    CalendarTaskBadge,
-    CalendarCell,
-    CalendarTaskFormModal,
-    CalendarTaskListModal,
+const props = defineProps({
+  currentCalendarData: {
+    type: Array,
+    default: () => [],
   },
-  props: {
-    currentCalendarData: {
-      type: Array,
-      default: () => [],
-    },
-  },
-  setup({ currentCalendarData }) {
-    const currentDate = ref('');
-    const {
-      tasks,
-      addTask,
-      removeTask,
-      saveTasks,
-    } = useTask();
-    const {
-      isVisible: isVisibleCalendarTaskFormModal,
-      show: showCalendarTaskFormModal,
-      hide: hideCalendarTaskFormModal,
-    } = useModal();
-    const {
-      isVisible: isVisibleCalendarTaskListModal,
-      show: showCalendarTaskListModal,
-      hide: hideCalendarTaskListModal,
-    } = useModal();
-    const handleCalendarCellClick = (event) => {
-      currentDate.value = event.currentTarget.getAttribute('data-date');
-      showCalendarTaskFormModal();
-    };
-    const handleRemainingTasksClick = (event) => {
-      currentDate.value = event.currentTarget.getAttribute('data-date');
-      showCalendarTaskListModal();
-    };
-    const handleSave = (newTaskName) => {
-      addTask(newTaskName, currentDate.value)
-      saveTasks();
-    };
-    const handleRemove = (taskId) => {
-      removeTask(taskId);
-      saveTasks();
-    };
-    const maxDayOfTheWeekDisplayed = 7;
-    const maxTaskBadgeDisplayed = 2;
-    const isVisibledDayOfTheWeek = computed(() => {
-      return (cellIndex) => maxDayOfTheWeekDisplayed > cellIndex;
-    });
-    const isVisibleTaskBadge = computed(() => {
-      return (taskIndex) =>  maxTaskBadgeDisplayed > taskIndex;
-    });
-    const isVisibleRemainingTasks = computed(() => {
-      return (tasks) => tasks?.length > maxTaskBadgeDisplayed;
-    });
-    const countOfRemainingTasks = computed(() => {
-      return (tasks) => tasks?.length - maxTaskBadgeDisplayed;
-    });
-
-    return {
-      currentDate,
-      isVisibleCalendarTaskFormModal,
-      isVisibleCalendarTaskListModal,
-      hideCalendarTaskFormModal,
-      hideCalendarTaskListModal,
-      handleCalendarCellClick,
-      handleRemainingTasksClick,
-      handleSave,
-      handleRemove,
-      tasks,
-      isVisibledDayOfTheWeek,
-      isVisibleTaskBadge,
-      isVisibleRemainingTasks,
-      countOfRemainingTasks,
-    };
-  },
-}
+});
+const currentDate = ref('');
+const {
+  tasks,
+  addTask,
+  removeTask,
+  saveTasks,
+} = useTask();
+const {
+  isVisible: isVisibleCalendarTaskFormModal,
+  show: showCalendarTaskFormModal,
+  hide: hideCalendarTaskFormModal,
+} = useModal();
+const {
+  isVisible: isVisibleCalendarTaskListModal,
+  show: showCalendarTaskListModal,
+  hide: hideCalendarTaskListModal,
+} = useModal();
+const handleCalendarCellClick = (event) => {
+  currentDate.value = event.currentTarget.getAttribute('data-date');
+  showCalendarTaskFormModal();
+};
+const handleRemainingTasksClick = (event) => {
+  currentDate.value = event.currentTarget.getAttribute('data-date');
+  showCalendarTaskListModal();
+};
+const handleSave = (newTaskName) => {
+  addTask(newTaskName, currentDate.value)
+  saveTasks();
+};
+const handleRemove = (taskId) => {
+  removeTask(taskId);
+  saveTasks();
+};
+const maxDayOfTheWeekDisplayed = 7;
+const maxTaskBadgeDisplayed = 2;
+const isVisibledDayOfTheWeek = computed(() => {
+  return (cellIndex) => maxDayOfTheWeekDisplayed > cellIndex;
+});
+const isVisibleTaskBadge = computed(() => {
+  return (taskIndex) =>  maxTaskBadgeDisplayed > taskIndex;
+});
+const isVisibleRemainingTasks = computed(() => {
+  return (tasks) => tasks?.length > maxTaskBadgeDisplayed;
+});
+const countOfRemainingTasks = computed(() => {
+  return (tasks) => tasks?.length - maxTaskBadgeDisplayed;
+});
 </script>
 
 <style lang="scss" module>

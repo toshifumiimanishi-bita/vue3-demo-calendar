@@ -9,37 +9,27 @@
   </AppBadge>
 </template>
 
-<script>
+<script setup>
 import AppBadge from './AppBadge.vue';
 
-export default {
-  components: {
-    AppBadge,
+const props = defineProps({
+  taskId: {
+    type: String,
+    default: '',
+    required: true,
   },
-  props: {
-    taskId: {
-      type: String,
-      default: '',
-      required: true,
-    },
-    taskName: {
-      type: String,
-      default: '',
-      required: true,
-    },
+  taskName: {
+    type: String,
+    default: '',
+    required: true,
   },
-  emits: {
-    remove: (taskId) => typeof taskId === 'string',
-  },
-  setup() {
-    const styleObject = {
-      backgroundColor: '#2ac8e2',
-    };
-    return {
-      styleObject,
-    };
-  },
-}
+});
+const emit = defineEmits({
+  remove: (taskId) => typeof taskId === 'string',
+})
+const styleObject = {
+  backgroundColor: '#2ac8e2',
+};
 </script>
 
 <style lang="scss" module>

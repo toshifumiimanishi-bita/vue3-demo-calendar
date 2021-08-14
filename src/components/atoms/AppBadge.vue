@@ -4,15 +4,13 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    styleObject: {
-      type: Object,
-      default: () => ({}),
-    },
+<script setup>
+const props = defineProps({
+  styleObject: {
+    type: Object,
+    default: () => ({}),
   },
-};
+});
 </script>
 
 <style lang="scss" module>

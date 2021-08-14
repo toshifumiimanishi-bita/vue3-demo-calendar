@@ -2,34 +2,26 @@
   <div :class="[$style.day, calendarDayClasses]">{{ day }}</div>
 </template>
 
-<script>
+<script setup>
 import { computed, useCssModule } from 'vue';
 
-export default {
-  props: {
-    day: {
-      type: Number,
-      default: 0,
-      required: true,
-    },
-    isToday: {
-      type: Boolean,
-      default: false,
-    },
+const props = defineProps({
+  day: {
+    type: Number,
+    default: 0,
+    required: true,
   },
-  setup(props) {
-    const style = useCssModule();
-    const calendarDayClasses = computed(() => {
-      return {
-        [style['is-today']]: props.isToday,
-      };
-    });
-
-    return {
-      calendarDayClasses,
-    };
+  isToday: {
+    type: Boolean,
+    default: false,
   },
-};
+});
+const style = useCssModule();
+const calendarDayClasses = computed(() => {
+  return {
+    [style['is-today']]: props.isToday,
+  };
+});
 </script>
 
 <style lang="scss" module>

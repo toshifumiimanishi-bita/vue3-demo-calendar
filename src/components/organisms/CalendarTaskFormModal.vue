@@ -11,41 +11,30 @@
   </AppModal>
 </template>
 
-<script>
+<script setup>
 import CalendarTaskForm from '../molecules/CalendarTaskForm.vue';
 import AppModal from './AppModal.vue';
 
-export default {
-  components: {
-    CalendarTaskForm,
-    AppModal,
+const props = defineProps({
+  isVisible: {
+    type: Boolean,
+    default: false,
+    required: true,
   },
-  props: {
-    isVisible: {
-      type: Boolean,
-      default: false,
-      required: true,
-    },
-    modalTitle: {
-      type: String,
-      default: '',
-      required: true,
-    },
+  modalTitle: {
+    type: String,
+    default: '',
+    required: true,
   },
-  emits: {
-    save: (newTaskName) => true,
-    hide: null,
-  },
-  setup(props, { emit }) {
-    const handleTaskSave = (newTaskName) => {
-      emit('save', newTaskName);
-      emit('hide');
-    };
-    return {
-      handleTaskSave,
-    };
-  },
-}
+});
+const emit = defineEmits({
+  save: (newTaskName) => true,
+  hide: null,
+});
+const handleTaskSave = (newTaskName) => {
+  emit('save', newTaskName);
+  emit('hide');
+};
 </script>
 
 <style lang="scss" module>

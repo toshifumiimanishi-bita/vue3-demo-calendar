@@ -6,50 +6,35 @@
   </header>
 </template>
 
-<script>
+<script setup>
 import CalendarTitle from '../atoms/CalendarTitle.vue';
 import CalendarTodayButton from '../atoms/CalendarTodayButton.vue';
 import CalendarNavigation from '../molecules/CalendarNavigation.vue';
 
-export default {
-  components: {
-    CalendarTitle,
-    CalendarTodayButton,
-    CalendarNavigation,
+const props = defineProps({
+  currentYear: {
+    type: Number,
+    default: 0,
   },
-  props: {
-    currentYear: {
-      type: Number,
-      default: 0,
-    },
-    currentMonth: {
-      type: Number,
-      default: 0,
-    },
+  currentMonth: {
+    type: Number,
+    default: 0,
   },
-  emits: {
-    'init:date': null,
-    prev: null,
-    next: null,
-  },
-  setup(props, { emit }) {
-    const handleDateInit = () => {
-      emit('init:date');
-    };
-    const handlePrev = () => {
-      emit('prev');
-    };
-    const handleNext = () => {
-      emit('next');
-    };
-
-    return {
-      handleDateInit,
-      handlePrev,
-      handleNext,
-    };
-  },
-}
+});
+const emit = defineEmits({
+  'init:date': null,
+  prev: null,
+  next: null,
+});
+const handleDateInit = () => {
+  emit('init:date');
+};
+const handlePrev = () => {
+  emit('prev');
+};
+const handleNext = () => {
+  emit('next');
+};
 </script>
 
 <style lang="scss" module>

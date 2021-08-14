@@ -2,23 +2,16 @@
   <div :class="$style.dayoftheweek">{{ dayOfTheWeek }}</div>
 </template>
 
-<script>
+<script setup>
 import getDayOfTheWeek from '../../utils/getDayOfTheWeek';
 
-export default {
-  props: {
-    dayOfTheWeekIndex: {
-      type: Number,
-      default: 0,
-    },
+const props = defineProps({
+  dayOfTheWeekIndex: {
+    type: Number,
+    default: 0,
   },
-  setup({ dayOfTheWeekIndex }) {
-    const dayOfTheWeek = getDayOfTheWeek(dayOfTheWeekIndex);
-    return {
-      dayOfTheWeek,
-    };
-  },
-}
+});
+const dayOfTheWeek = getDayOfTheWeek(props.dayOfTheWeekIndex);
 </script>
 
 <style lang="scss" module>

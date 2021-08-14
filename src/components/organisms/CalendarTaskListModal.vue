@@ -17,58 +17,44 @@
   </AppModal>
 </template>
 
-<script>
+<script setup>
 import { computed } from 'vue';
 import CalendarTaskBadge from '../atoms/CalendarTaskBadge.vue';
 import AppModal from './AppModal.vue';
 import getDayOfTheWeek from '../../utils/getDayOfTheWeek';
 
-export default {
-  components: {
-    CalendarTaskBadge,
-    AppModal,
+const props = defineProps({
+  currentDate: {
+    type: String,
+    default: '',
+    required: true,
   },
-  props: {
-    currentDate: {
-      type: String,
-      default: '',
-      required: true,
-    },
-    isVisible: {
-      type: Boolean,
-      default: false,
-      required: true,
-    },
-    tasks: {
-      type: Object,
-      default: () => ({}),
-      required: true,
-    },
+  isVisible: {
+    type: Boolean,
+    default: false,
+    required: true,
   },
-  emits: {
-    remove: (taskId) => typeof taskId === 'string',
+  tasks: {
+    type: Object,
+    default: () => ({}),
+    required: true,
   },
-  setup(props, { emit }) {
-    const date = computed(() => {
-      return new Date(props.currentDate);
-    });
-    const dayOfTheWeek = computed(() => {
-      return getDayOfTheWeek(date.value.getDay());
-    });
-    const day = computed(() => {
-      return date.value.getDate();
-    });
-    const handleRemove = (taskId) => {
-      emit('remove', taskId);
-    };
-
-    return {
-      dayOfTheWeek,
-      day,
-      handleRemove,
-    };
-  }
-}
+});
+const emit = defineEmits({
+  remove: (taskId) => typeof taskId === 'string',
+});
+const date = computed(() => {
+  return new Date(props.currentDate);
+});
+const dayOfTheWeek = computed(() => {
+  return getDayOfTheWeek(date.value.getDay());
+});
+const day = computed(() => {
+  return date.value.getDate();
+});
+const handleRemove = (taskId) => {
+  emit('remove', taskId);
+};
 </script>
 
 <style lang="scss" module>
